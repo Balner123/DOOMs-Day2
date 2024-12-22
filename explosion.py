@@ -19,6 +19,9 @@ class Explosion:
         self.animation_counter = 0
         self.crater_created = False
         self.hit_detected = False  # Přidáno pro sledování detekce zásahu
+        
+        self.posun_y = 0.85 # Posun nahoru
+        self.posun_x = 0.25 # Posun vlevo
 
     def load_frames(self):
         frames = []
@@ -44,8 +47,8 @@ class Explosion:
     def draw(self, screen):
         if not self.finished:
             offset_rect = self.rect.copy()
-            offset_rect.x -= self.rect.width // 3  # Posun více vlevo
-            offset_rect.y -= self.rect.height  # Posun ještě více nahoru
+            offset_rect.x -= self.rect.width * self.posun_x  # Posun více vlevo
+            offset_rect.y -= self.rect.height * self.posun_y# Posun ještě více nahoru
             screen.blit(self.frames[self.frame], offset_rect)
            # pygame.draw.rect(screen, (255, 255, 255), offset_rect, 1)  # Vykreslení hitboxu exploze
 
@@ -57,11 +60,13 @@ class Explosion:
         if self.hit_detected or self.frame > 4:
             return False
         offset_rect = self.rect.copy()
-        offset_rect.x -= self.rect.width // 3  # Posun více vlevo
-        offset_rect.y -= self.rect.height  # Posun ještě více nahoru
+        offset_rect.x -= self.rect.width * self.posun_x  # Posun více vlevo
+        offset_rect.y -= self.rect.height * self.posun_y# Posun ještě více nahoru
         explosion_hitbox = pygame.Rect(offset_rect.x + offset_rect.width // 6, offset_rect.y + offset_rect.height // 6, offset_rect.width * 2 // 3, offset_rect.height * 2 // 3)
         character_hitbox = pygame.Rect(character.rect.x + character.rect.width // 6, character.rect.y + character.rect.height // 6, character.rect.width * 2 // 3, character.rect.height * 2 // 3)
         if explosion_hitbox.colliderect(character_hitbox):
             self.hit_detected = True
             return True
         return False
+    
+    

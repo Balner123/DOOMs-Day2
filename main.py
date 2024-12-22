@@ -2,6 +2,7 @@ import pygame
 import random
 from character import Character
 from asteroid import Asteroid
+from target import Target
 from explosion import Explosion
 from crater import Crater
 from settings import *
@@ -13,8 +14,9 @@ pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Falling Star !")
 
-# Načtení pozadí
+# Načtení a škálování pozadí
 background = pygame.image.load('media/background.png')
+background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
 blood_screen = pygame.image.load('media/blood_screen.png').convert_alpha()
 
 # Inicializace fontu
@@ -33,11 +35,11 @@ def main():
     # Vytvoření objektů
     player = Character()
     asteroids = []
+    targets = []
     explosions = []
     craters = []
     blood_screen_timer = 0
     hit_count = 0
-    shake_intensity = 5  # Konstantní intenzita otřesů
 
     # Nastavení časovače pro generování asteroidů
     pygame.time.set_timer(pygame.USEREVENT, ASTEROID_SPAWN_DELAY)
@@ -47,23 +49,32 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.USEREVENT:
-                asteroids.append(Asteroid())
+                asteroid = Asteroid()
+                target = Target(asteroid.rect.x, random.randint(ROZMEZI_Y, SCREEN_HEIGHT-ROZMEZI_Y), asteroid.scale)
+                asteroid.target_y = target.rect.y
+                asteroid.target = target  # Uložení cíle do asteroidu
+                asteroids.append(asteroid)
+                targets.append(target)
 
         # Aktualizace
         player.update()
+        if player.lives <= 0:
+            running = False  # Ukončení hlavní smyčky hry, pokud hráč nemá žádné životy
+
         for asteroid in asteroids[:]:
             if asteroid.update():
                 explosions.append(Explosion(asteroid.rect.center, asteroid.scale))
+                targets.remove(asteroid.target)  # Odstranění cíle spojeného s asteroidem
                 asteroids.remove(asteroid)
 
         for explosion in explosions[:]:
             explosion.update()
-            if explosion.has_collided(player):
+            if explosion.has_collided(player) and not player.invincible:
                 player.hit()
-                blood_screen_timer = FPS * INVINCIBILITY  # 4 sekundy při 60 FPS
+                blood_screen_timer = FPS * INVINCIBILITY  
                 hit_count += 1
             if explosion.crater_created and not explosion.finished:
-                craters.append(Crater(explosion.rect.center,explosion.scale))
+                craters.append(Crater(explosion.rect.center, explosion.scale))
                 explosion.crater_created = False
             if explosion.finished:
                 explosions.remove(explosion)
@@ -74,6 +85,8 @@ def main():
 
         for crater in craters:
             crater.draw(surface)
+        for target in targets:
+            target.draw(surface)
         player.draw(surface)
         for asteroid in asteroids:
             asteroid.draw(surface)
@@ -91,7 +104,7 @@ def main():
         surface.blit(hit_count_text, (10, 10))
 
         # Aplikace otřesů na celý povrch
-        shake_x, shake_y = apply_shake_effect(shake_intensity)
+        shake_x, shake_y = apply_shake_effect(SHAKE_INTENSITY)
         screen.blit(surface, (shake_x, shake_y))
 
         pygame.display.flip()

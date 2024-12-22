@@ -10,6 +10,6 @@ class Crater:
 
     def draw(self, screen):
         offset_rect = self.rect.copy()
-        offset_rect.y -= self.rect.height * 1.5  # Posun o jednu a půl výšku kráteru nahoru
-        offset_rect.x -= self.rect.width * 0.6  # Posun o 0.6 šířky kráteru vlevo
+        offset_rect.y -= self.rect.height * 0.8  # Posun o jednu a půl výšku kráteru nahoru
+        offset_rect.x -= self.rect.width * 0.5  # Posun o 0.6 šířky kráteru vlevo
         screen.blit(self.image, offset_rect)

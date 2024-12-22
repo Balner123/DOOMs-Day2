@@ -12,14 +12,14 @@ class Character:
         self.image = self.frames["down"][0]
         self.rect = self.image.get_rect()
         self.rect.center = (400, 300)
-        self.lives = 5
+        self.lives = 5  # Počet životů inicializován na 5
         self.current_direction = "down"
         self.animation_index = 0
         self.animation_speed = 0.1
         self.animation_counter = 0
         self.invincible = False
         self.invincible_timer = 0
-        self.speed = CHARACTER_SPEED # Přidán atribut rychlosti
+        self.speed = CHARACTER_SPEED
 
     def load_frames(self):
         frames = {direction: [] for direction in self.directions}
@@ -74,6 +74,7 @@ class Character:
             if self.invincible_timer <= 0:
                 self.invincible = False
 
+
     def animate(self):
         self.animation_counter += self.animation_speed
         if self.animation_counter >= 1:
@@ -93,4 +94,4 @@ class Character:
         if not self.invincible:
             self.lives -= 1
             self.invincible = True
-            self.invincible_timer = FPS * 2  # 2 sekundy při 60 FPS
+            self.invincible_timer = FPS * INVINCIBILITY  # 2 sekundy při 60 FPS
