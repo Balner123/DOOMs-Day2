@@ -48,25 +48,27 @@ class Explosion:
         if not self.finished:
             offset_rect = self.rect.copy()
             offset_rect.x -= self.rect.width * self.posun_x  # Posun více vlevo
-            offset_rect.y -= self.rect.height * self.posun_y# Posun ještě více nahoru
+            offset_rect.y -= self.rect.height * self.posun_y  # Posun ještě více nahoru
             screen.blit(self.frames[self.frame], offset_rect)
            # pygame.draw.rect(screen, (255, 255, 255), offset_rect, 1)  # Vykreslení hitboxu exploze
 
             # Vykreslení hitboxů pro kontrolu
-           # explosion_hitbox = pygame.Rect(offset_rect.x + offset_rect.width // 6, offset_rect.y + offset_rect.height // 6, offset_rect.width * 2 // 3, offset_rect.height * 2 // 3)
-           # pygame.draw.rect(screen, (255, 0, 0), explosion_hitbox, 1)  # Vykreslení hitboxu exploze
+            explosion_hitbox = pygame.Rect(offset_rect.x + offset_rect.width // 6, offset_rect.y + offset_rect.height // 6, offset_rect.width * 2 // 3, offset_rect.height * 2 // 3)
+            explosion_hitbox.y += explosion_hitbox.height // 2  # Posun hitboxu o půl výšky dolů
+            explosion_hitbox.inflate_ip(-explosion_hitbox.width // 4, -explosion_hitbox.height // 4)  # Zmenšení hitboxu o 1/4
+            pygame.draw.rect(screen, (255, 0, 0), explosion_hitbox, 1)  # Vykreslení hitboxu exploze
 
     def has_collided(self, character):
         if self.hit_detected or self.frame > 4:
             return False
         offset_rect = self.rect.copy()
         offset_rect.x -= self.rect.width * self.posun_x  # Posun více vlevo
-        offset_rect.y -= self.rect.height * self.posun_y# Posun ještě více nahoru
+        offset_rect.y -= self.rect.height * self.posun_y  # Posun ještě více nahoru
         explosion_hitbox = pygame.Rect(offset_rect.x + offset_rect.width // 6, offset_rect.y + offset_rect.height // 6, offset_rect.width * 2 // 3, offset_rect.height * 2 // 3)
+        explosion_hitbox.y += explosion_hitbox.height // 2  # Posun hitboxu o půl výšky dolů
+        explosion_hitbox.inflate_ip(-explosion_hitbox.width // 4, -explosion_hitbox.height // 4)  # Zmenšení hitboxu o 1/4
         character_hitbox = pygame.Rect(character.rect.x + character.rect.width // 6, character.rect.y + character.rect.height // 6, character.rect.width * 2 // 3, character.rect.height * 2 // 3)
         if explosion_hitbox.colliderect(character_hitbox):
             self.hit_detected = True
             return True
         return False
-    
-    
