@@ -19,7 +19,7 @@ background = pygame.image.load('media/background.png')
 background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
 blood_screen = pygame.image.load('media/blood_screen.png').convert_alpha()
 skull_image = pygame.image.load('media/skull.png').convert_alpha()
-skull_image = pygame.transform.scale(skull_image, (90, 90))  # Zvětšení velikosti lebky třikrát
+skull_image = pygame.transform.scale(skull_image, (40*1.5, 45*1.5))  # Zvětšení velikosti lebky třikrát
 
 # Inicializace fontu
 font = pygame.font.Font(None, 36)
@@ -183,7 +183,7 @@ def main_game():
 
         # Vykreslení lebek za každý zásah
         for i in range(hit_count):
-            surface.blit(skull_image, (10 + i * 60, 40))  # Posun lebek o 100 pixelů doprava a 80 pixelů dolů
+            surface.blit(skull_image, (10 + i * 50, 40)) # Posun lebek o 60 pixelů doprava
 
         # Aplikace otřesů na celý povrch
         shake_x, shake_y = apply_shake_effect(SHAKE_INTENSITY)
