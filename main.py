@@ -18,6 +18,8 @@ pygame.display.set_caption("Falling Star !")
 background = pygame.image.load('media/background.png')
 background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
 blood_screen = pygame.image.load('media/blood_screen.png').convert_alpha()
+skull_image = pygame.image.load('media/skull.png').convert_alpha()
+skull_image = pygame.transform.scale(skull_image, (90, 90))  # Zvětšení velikosti lebky třikrát
 
 # Inicializace fontu
 font = pygame.font.Font(None, 36)
@@ -34,6 +36,12 @@ def draw_text(surface, text, font, color, x, y):
     # Vykreslení černého obdélníku pod textem
     pygame.draw.rect(surface, (0, 0, 0), text_rect.inflate(20, 10))
     surface.blit(text_surface, text_rect)
+
+def format_time(elapsed_time):
+    minutes = elapsed_time // 60000
+    seconds = (elapsed_time % 60000) // 1000
+    milliseconds = (elapsed_time % 1000) // 10
+    return f"{minutes:02}:{seconds:02}:{milliseconds:02}"
 
 def main_menu():
     # Načtení a škálování pozadí
@@ -168,17 +176,14 @@ def main_game():
             scaled_blood_screen = pygame.transform.scale(blood_screen, (SCREEN_WIDTH, SCREEN_HEIGHT))
             surface.blit(scaled_blood_screen, (0, 0))
 
-        # Vykreslení počítadla zásahů
-        hit_count_text = font.render(f"Zásahy: {hit_count}", True, (255, 255, 255))
-        surface.blit(hit_count_text, (10, 10))
-
         # Vykreslení času od spuštění hry
         elapsed_time = pygame.time.get_ticks() - start_time
-        minutes = elapsed_time // 60000
-        seconds = (elapsed_time % 60000) // 1000
-        milliseconds = (elapsed_time % 1000) // 10
-        time_text = font.render(f"Čas: {minutes:02}:{seconds:02}:{milliseconds:02}", True, (255, 255, 255))
-        surface.blit(time_text, (10, 40))
+        time_text = font.render(f"Čas: {format_time(elapsed_time)}", True, (255, 255, 255))
+        surface.blit(time_text, (10, 10))
+
+        # Vykreslení lebek za každý zásah
+        for i in range(hit_count):
+            surface.blit(skull_image, (10 + i * 60, 40))  # Posun lebek o 100 pixelů doprava a 80 pixelů dolů
 
         # Aplikace otřesů na celý povrch
         shake_x, shake_y = apply_shake_effect(SHAKE_INTENSITY)
@@ -187,7 +192,7 @@ def main_game():
         pygame.display.flip()
         clock.tick(FPS)
 
-    final_time = f"{minutes:02}:{seconds:02}:{milliseconds:02}"
+    final_time = format_time(elapsed_time)
     return final_time
 
 def main():
