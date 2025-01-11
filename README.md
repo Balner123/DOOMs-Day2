@@ -1,10 +1,13 @@
 # Falling Star / Doom's Day
-# Instrukce
+## Instrukce
 1. Nainstalujte Python
-2. Stáhněte si projekt:
+   
+   https://www.python.org/ftp/python/3.13.1/python-3.13.1-amd64.exe
+3. Stáhněte si projekt:
    ```sh
-   git clone 
+   git clone https://github.com/Balner123/DOOMs-Day2.git
    ```
+
 4. Vytvořte venv a instalujte závislosti:
    Ve složce projektu otevřete konzoli a proveďte:
     ```sh
