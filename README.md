@@ -1,4 +1,14 @@
-# Falling Star / Doom's Day
+# Doom's Day
+## O hře
+ Hra tato simulací je.
+ simulací dne apokalyptického, dne posledního.
+Tato hra se nedá vyhrát, v hře této cíle není.
+
+Tedy cíl by zde i mohl být avšak není to cíl, jenž vede k vítězství.
+Avšak i přesto...
+
+"CÍL VYSKYTUJÍCÍ SE VE HŘE : vydržet co nejdéle."
+
 ## Instrukce
 1. Nainstalujte Python
    
