@@ -12,7 +12,7 @@ pygame.init()
 
 # Nastavení obrazovky
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Falling Star !")
+pygame.display.set_caption("DOOM's DAY")
 
 # Načtení a škálování pozadí
 background = pygame.image.load('media/background.png')
