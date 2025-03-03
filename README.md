@@ -7,7 +7,7 @@ Tato hra se nedá vyhrát, v hře této cíle není.
 Tedy cíl by zde i mohl být avšak není to cíl, jenž vede k vítězství.
 Avšak i přesto...
 
-"CÍL VYSKYTUJÍCÍ SE VE HŘE : vydržet co nejdéle."
+"CÍL VYSKYTUJÍCÍ SE VE HŘE : vydržet co nejdéle." PS: alespoň do doby než hra spadne...
 
 ## Instrukce
 1. Nainstalujte Python
