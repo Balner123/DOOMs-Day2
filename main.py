@@ -50,7 +50,7 @@ def main_menu():
 
     while True:
         screen.blit(background, (0, 0))
-        draw_text(screen, "Falling Star", font, (255, 255, 255), SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 50)
+        draw_text(screen, "Doom's day", font, (255, 255, 255), SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 50)
         draw_text(screen, "Press ENTER to PLAY", font, (255, 255, 255), SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
         draw_text(screen, "Press ESC to EXIT", font, (255, 255, 255), SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 50)
 
