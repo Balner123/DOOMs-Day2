@@ -119,10 +119,44 @@ def main_game():
                 asteroids.append(asteroid)
                 targets.append(target)
 
-        # Aktualizace
+ # Aktualizace
         player.update()
         if player.lives <= 0:
             running = False  # Ukončení hlavní smyčky hry, pokud hráč nemá žádné životy
+
+        # Kontrola pro spawn speciálního velkého asteroidu
+        elapsed_seconds = (pygame.time.get_ticks() - start_time) // 1000  # Převod na sekundy
+        if elapsed_seconds > 0 and elapsed_seconds % ENDARIVALLTIME == 0:
+            # Použijeme časovou značku, abychom zajistili, že se asteroid spawnne pouze jednou za interval
+            current_second_timestamp = elapsed_seconds // ENDARIVALLTIME
+            if not hasattr(main_game, 'last_big_asteroid') or main_game.last_big_asteroid != current_second_timestamp:
+                # Vytvoření velkého asteroidu mířícího na střed obrazovky
+                main_game.last_big_asteroid = current_second_timestamp
+                
+                # Vytvoření velkého asteroidu
+                big_asteroid = Asteroid()
+                # Nastavení velikosti na 1/3 šířky obrazovky
+                big_asteroid_scale = (SCREEN_WIDTH / 3) / (big_asteroid.frame_width // 5)
+                big_asteroid.scale = big_asteroid_scale
+                big_asteroid.scaled_width = (big_asteroid.frame_width // 5) * big_asteroid.scale
+                big_asteroid.scaled_height = (big_asteroid.frame_height // 5) * big_asteroid.scale
+                big_asteroid.frames = big_asteroid.load_frames()  # Znovu načteme framy s novou velikostí
+                
+                # Nastavení pozice na střed horní části obrazovky
+                big_asteroid.rect.x = SCREEN_WIDTH // 2
+                big_asteroid.rect.y = -big_asteroid.rect.height
+                
+                # Nastavení cíle na střed obrazovky
+                target = Target(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, big_asteroid.scale)
+                big_asteroid.target_y = target.rect.y
+                big_asteroid.target = target
+                
+                # Nastavení rychlosti (pomalejší kvůli velikosti)
+                big_asteroid.speed = asteroid_speed / big_asteroid.scale * 1.5  # Trochu rychlejší než by odpovídalo velikosti
+                
+                # Přidání do seznamů
+                asteroids.append(big_asteroid)
+                targets.append(target)
 
         for asteroid in asteroids[:]:
             if asteroid.update():

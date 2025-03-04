@@ -24,3 +24,5 @@ DIFFICULTY_INCREASE_INTERVAL = 700  # Interval zvyšování obtížnosti v milis
 ASTEROID_SPEED_INCREMENT = 0.1  # Zvýšení rychlosti asteroidů
 ASTEROID_SPAWN_DELAY_DECREMENT = 5  # Snížení zpoždění mezi generováním asteroidů
 CRATER_LIFE_DECREMENT = 1  # Snížení délky života kráteru
+
+ENDARIVALLTIME = 20 # konec se blíží
