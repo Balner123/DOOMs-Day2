@@ -25,7 +25,7 @@ ASTEROID_SPEED_INCREMENT = 0.1  # Zvýšení rychlosti asteroidů
 ASTEROID_SPAWN_DELAY_DECREMENT = 5  # Snížení zpoždění mezi generováním asteroidů
 CRATER_LIFE_DECREMENT = 1  # Snížení délky života kráteru
 
-ENDARIVALLTIME = 60 # konec se blíží
+ENDARIVALLTIME = 30 # konec se blíží
 TARGETANIMATIONSPEED = 0.1  # pauza mezi snímky
 
 # Giant Asteroid Settings
